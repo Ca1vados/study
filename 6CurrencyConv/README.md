@@ -13,13 +13,13 @@
      - Сумму для конвертации
    - Выведи результат конвертации на экран.
 ## 3. Пример структуры данных:
-      type ExchangeRate struct {
+  >    type ExchangeRate struct {
        From   string
        To     string
        Rate   float64
    }
 
-   var rates = []ExchangeRate{
+  > var rates = []ExchangeRate{
        {"USD", "EUR", 0.85},
        {"EUR", "USD", 1.18},
        {"USD", "RUB", 74.0},
