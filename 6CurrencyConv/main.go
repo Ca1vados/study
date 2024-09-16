@@ -51,20 +51,40 @@ func exchange(er *ExchangeRate) (float64, error) {
 }
 
 func readEx() ExchangeRate {
-	var from string                        // переменная для хранения исходной валюты
-	var to string                          // переменная для хранения целевой валюты
-	var amount float64                     // переменная для хранения суммы конвертации
+	var from string    // переменная для хранения исходной валюты
+	var to string      // переменная для хранения целевой валюты
+	var amount float64 // переменная для хранения суммы конвертации
+
+	var ex ExchangeRate
 	fmt.Print("Введите исходную валюту: ") // in CURRENCY
 	fmt.Scan(&from)
-	fmt.Print("Введите целевую валюту: ") // in CURRENCY
-	fmt.Scan(&to)
-	fmt.Print("Введите сумму для конвертации: ") // >0 ant digit
-	fmt.Scan(&amount)
-	ex := ExchangeRate{
-		From:   from,
-		To:     to,
-		Amount: amount,
+	for _, i := range CURRENCY {
+		if from != i {
+			fmt.Println("ошибка")
+
+		} else {
+			fmt.Print("Введите целевую валюту: ") // in CURRENCY
+			fmt.Scan(&to)
+			for _, k := range CURRENCY {
+				if to != k {
+					fmt.Println("ошибка")
+				} else {
+					fmt.Print("Введите сумму для конвертации: ") // >0 ant digit
+					fmt.Scan(&amount)
+					if amount <= 0 {
+						fmt.Println("ошибка")
+					} else {
+						ex = ExchangeRate{
+							From:   from,
+							To:     to,
+							Amount: amount,
+						}
+					}
+				}
+			}
+		}
 	}
+
 	return ex
 }
 
