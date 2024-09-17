@@ -50,7 +50,7 @@ func exchange(er *ExchangeRate) (float64, error) {
 
 }
 
-func readEx() ExchangeRate {
+func readEx() (ExchangeRate, error) {
 	var from string    // переменная для хранения исходной валюты
 	var to string      // переменная для хранения целевой валюты
 	var amount float64 // переменная для хранения суммы конвертации
@@ -58,28 +58,28 @@ func readEx() ExchangeRate {
 	var ex ExchangeRate
 	fmt.Print("Введите исходную валюту: ") // in CURRENCY
 	fmt.Scan(&from)
-	if from != [0]CURRENCY || from != [1]CURRENCY || from != [2]CURRENCY {
+	if from != CURRENCY[0] || from != CURRENCY[1] || from != CURRENCY[2] {
 		fmt.Println(err.Error())
+	} else {
+		fmt.Print("Введите целевую валюту: ") // in CURRENCY
+		fmt.Scan(&to)
+		if to != CURRENCY[0] || to != CURRENCY[1] || to != CURRENCY[2] {
+			fmt.Println(err.Error())
 		} else {
-			fmt.Print("Введите целевую валюту: ") // in CURRENCY
-			fmt.Scan(&to)
-			if to != [0]CURRENCY || to != [1]CURRENCY || to != [2]CURRENCY {
+			fmt.Print("Введите сумму для конвертации: ") // >0 ant digit
+			fmt.Scan(&amount)
+			if amount <= 0 {
 				fmt.Println(err.Error())
-				} else {
-					fmt.Print("Введите сумму для конвертации: ") // >0 ant digit
-					fmt.Scan(&amount)
-					if amount <= 0 {
-						fmt.Println(err.Error())
-						} else {
-							ex = ExchangeRate{
-								From:   from,
-								To:     to,
-								Amount: amount,
-							}
-						}
+			} else {
+				ex = ExchangeRate{
+					From:   from,
+					To:     to,
+					Amount: amount,
 				}
+			}
 		}
-	return ex
+	}
+	return ex, err
 }
 
 func main() {
