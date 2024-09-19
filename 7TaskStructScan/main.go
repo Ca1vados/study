@@ -30,9 +30,12 @@ func (ih InputHandler) ReadInt() (int, error) { // создаем метод Rea
 }
 
 func (ih InputHandler) ReadFloat() (float64, error) { // создаем метод ReadInt для InputHandler, возвращающий float64 и ошибку
-	reader := bufio.NewReader(os.Stdin) // создаем сканер reader, считывающий данные с консоли
+	//reader := bufio.NewReader(os.Stdin) // создаем сканер reader, считывающий данные с консоли
 	fmt.Print("Введите число с плавающей точкой: ")
-	input, _ := reader.ReadString('\n')                             // создаем переменную input в которую считываем данные до Энтера из консоли.
+	var input string
+	_, err := fmt.Scan(&input)
+	// input, _ := reader.ReadString('\n') // создаем переменную input в которую считываем данные до Энтера из консоли.
+	fmt.Printf("input = %s\n", input)
 	number, err := strconv.ParseFloat(strings.TrimSpace(input), 64) // убираем лишние пробелы (вопрос выше) и конвертируем строку input в float64. Записываем в переменную number. в err заносим возможную ошибку.
 	if err != nil {                                                 // если происходит ошибка, обрабатываем её: возвращаем ноль и созданную нами текстовую ошибку
 		return 0, errors.New("не удалось считать число с плавающей точкой")
