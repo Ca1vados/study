@@ -1,16 +1,10 @@
 package main
 
 import (
+	"currencyconv/currency"
 	"fmt"
+	"strings"
 )
-
-const (
-	RUB = "RUB"
-	USD = "USD"
-	EUR = "EUR"
-)
-
-var CURRENCY = []string{RUB, USD, EUR}
 
 type Convertor struct {
 	From string
@@ -25,12 +19,12 @@ type ExchangeRate struct {
 }
 
 var rates = []Convertor{
-	{USD, EUR, 0.85},
-	{EUR, USD, 1.18},
-	{USD, RUB, 74.0},
-	{RUB, USD, 0.0135},
-	{EUR, RUB, 87.0},
-	{RUB, EUR, 0.0115},
+	{currency.USD, currency.EUR, 0.85},
+	{currency.EUR, currency.USD, 1.18},
+	{currency.USD, currency.RUB, 74.0},
+	{currency.RUB, currency.USD, 0.0135},
+	{currency.EUR, currency.RUB, 87.0},
+	{currency.RUB, currency.EUR, 0.0115},
 }
 
 func exchange(er *ExchangeRate) (float64, error) {
@@ -54,37 +48,74 @@ func readEx() (ExchangeRate, error) {
 	var from string    // переменная для хранения исходной валюты
 	var to string      // переменная для хранения целевой валюты
 	var amount float64 // переменная для хранения суммы конвертации
-
+	curr := currency.New()
 	var ex ExchangeRate
-	fmt.Print("Введите исходную валюту: ") // in CURRENCY
-	fmt.Scan(&from)
-	if from != CURRENCY[0] || from != CURRENCY[1] || from != CURRENCY[2] {
-		fmt.Println(err.Error())
-	} else {
-		fmt.Print("Введите целевую валюту: ") // in CURRENCY
-		fmt.Scan(&to)
-		if to != CURRENCY[0] || to != CURRENCY[1] || to != CURRENCY[2] {
-			fmt.Println(err.Error())
-		} else {
-			fmt.Print("Введите сумму для конвертации: ") // >0 ant digit
-			fmt.Scan(&amount)
-			if amount <= 0 {
-				fmt.Println(err.Error())
-			} else {
-				ex = ExchangeRate{
-					From:   from,
-					To:     to,
-					Amount: amount,
-				}
+	for {
+		fmt.Print("Введите исходную валюту: ")
+		fmt.Scan(&from)
+		from = strings.ToUpper(from)
+		f := false
+		for _, v := range curr.Curr {
+			if v == from {
+				f = true
+				break
 			}
 		}
+
+		if !f {
+			fmt.Println("Используйте другую валюту! (rub, usd, eur)")
+		} else {
+			break
+		}
 	}
-	return ex, err
+
+	for {
+		fmt.Print("Введите требуемую валюту: ")
+		fmt.Scan(&to)
+		to = strings.ToUpper(to)
+		f := false
+		for _, v := range curr.Curr {
+			if v == to {
+				f = true
+				break
+			}
+		}
+
+		if !f {
+			fmt.Println("Используйте другую валюту! (rub, usd, eur)")
+		} else {
+			break
+		}
+	}
+	for {
+		fmt.Print("Введите значение для перевода: ")
+		fmt.Scan(&amount)
+		f := false
+		if amount >= 0 {
+			f = true
+		}
+		if !f {
+			fmt.Println("Введите число больше нуля")
+		} else {
+			break
+		}
+	}
+	ex = ExchangeRate{
+		From:   from,
+		To:     to,
+		Amount: amount,
+	}
+
+	return ex, nil // Чтобы функция main завершила выполнение было errors.New("Моя ошибка!")
 }
 
 func main() {
 	for {
-		ex := readEx()
+		ex, err := readEx()
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 		converted, err := exchange(&ex)
 		if err != nil {
 			fmt.Println(err.Error())
