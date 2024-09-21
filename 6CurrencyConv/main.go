@@ -57,7 +57,7 @@ func readEx() (string, string, float64, error) {
 }
 
 func main() {
-	conv := convertor.New()
+	conv := convertor.New() // пакет convertor, функция new
 	for {
 
 		from, to, amount, err := readEx()
