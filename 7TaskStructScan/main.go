@@ -31,7 +31,7 @@ func (ih InputHandler) ReadInt() (int, error) { // создаем метод Rea
 
 func (ih InputHandler) ReadFloat() (float64, error) { // создаем метод ReadInt для InputHandler, возвращающий float64 и ошибку
 	//reader := bufio.NewReader(os.Stdin) // создаем сканер reader, считывающий данные с консоли
-	fmt.Print("Введите число с плавающей точкой: ")
+	fmt.Print("Введите число с плавающей точкойs: ")
 	var input string
 	_, err := fmt.Scan(&input)
 	// input, _ := reader.ReadString('\n') // создаем переменную input в которую считываем данные до Энтера из консоли.

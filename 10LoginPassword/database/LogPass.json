@@ -1,6 +1,12 @@
-{
-    "Login": "Pavel",
-    "Pass": "hello",
-    "PassHash": "",
-    "Secret": "world"
-}
+[
+    {
+        "login": "user1",
+        "pass_hash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbddc8f7f8d6e6a69b3b7",
+        "secret": "secret1"
+    },
+    {
+        "login": "user2",
+        "pass_hash": "6cf615d5d2d8a4d4b99bfa64bcd6f0b3cd01a9e8b8c3bb9e7d6e5a451a87eaf5",
+        "secret": "secret2"
+    }
+]
