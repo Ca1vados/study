@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"./user"
+	"LoginPass/user"
 )
 
 func main() {
