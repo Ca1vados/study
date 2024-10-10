@@ -1,12 +1,12 @@
 [
     {
         "login": "user1",
-        "pass_hash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbddc8f7f8d6e6a69b3b7",
+        "hash": "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349",
         "secret": "secret1"
     },
     {
         "login": "user2",
-        "pass_hash": "6cf615d5d2d8a4d4b99bfa64bcd6f0b3cd01a9e8b8c3bb9e7d6e5a451a87eaf5",
+        "hash": "1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9",
         "secret": "secret2"
     }
 ]
