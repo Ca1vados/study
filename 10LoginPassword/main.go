@@ -15,6 +15,7 @@ func ReadString(msg string) (string, error) {
 	if err != nil {
 		return input, err
 	}
+	// удали лишниие пробелы - strip
 	return input, nil
 }
 

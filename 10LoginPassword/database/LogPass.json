@@ -1,12 +1,12 @@
 [
     {
         "login": "user1",
-        "hash": "pass1",
+        "pass": "pass1",
         "secret": "secret1"
     },
     {
         "login": "user2",
-        "hash": "pass1",
+        "pass": "pass1",
         "secret": "secret2"
     }
 ]
