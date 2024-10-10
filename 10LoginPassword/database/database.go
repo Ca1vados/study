@@ -3,6 +3,7 @@ package database
 import (
 	"LoginPass/entity"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
@@ -13,6 +14,7 @@ type Database struct {
 func New() *Database {
 	users, err := ReadJsonFile("database/LogPass.json")
 	if err != nil {
+		fmt.Println(err.Error())
 		panic(1) // вызывает эту панику
 	}
 
