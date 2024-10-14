@@ -14,7 +14,7 @@ func ReadString(msg string) (string, error) {
 	fmt.Print(msg)
 	input, err := reader.ReadString('\n') // !
 	if err != nil {
-		return strings.TrimSpace(input), err
+		return input, err
 	}
 
 	return strings.TrimSpace(input), nil // обрезал пробелы в выводе
