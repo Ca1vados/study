@@ -16,6 +16,7 @@ func ReadString(msg string) (string, error) {
 	if err != nil {
 		return input, err
 	}
+
 	return strings.TrimSpace(input), nil // обрезал пробелы в выводе
 }
 
