@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func doubleArray(arr *[5]int) *[5]int {
+func DoubleArray(arr *[5]int) *[5]int {
 	for a, _ := range arr {
 		arr[a] *= 2
 	}
@@ -12,6 +12,6 @@ func doubleArray(arr *[5]int) *[5]int {
 }
 func main() {
 	numbers := [5]int{1, 2, 3, 4, 5}
-	doubleArray(&numbers)
+	DoubleArray(&numbers)
 	fmt.Println(numbers)
 }
