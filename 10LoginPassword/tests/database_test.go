@@ -2,9 +2,12 @@ package tests
 
 import (
 	"LoginPass/database"
+	"LoginPass/entity"
 	"log"
 	"os"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 /*
@@ -17,8 +20,19 @@ import (
 
 func TestReadJsonFile(t *testing.T) {
 	filename := "TestReadJsonFile.json"
-	expString := "1"
-	res := 1
+	expString := `[
+		{
+			"login": "user1",
+			"hash": "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349",
+			"secret": "secret1"
+		},
+		{
+			"login": "user2",
+			"hash": "1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9",
+			"secret": "secret2"
+		}
+	]`
+	res := []entity.User{}
 	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644) // флаги, разрешения, которые мы даем файлу
 	if err != nil {
 		log.Fatalf("Ошибка при открытии файла: %v", err)
@@ -33,8 +47,56 @@ func TestReadJsonFile(t *testing.T) {
 	if err != nil {
 		t.Errorf("func ReadJsonFile return error")
 	}
-	if data != res {
+	answer := cmp.Equal(data, res)
+	if !answer { // изначально было if data != res. ругалось на то что нельзя две структуры так сравнить
 		t.Errorf("data = %v, expected %v", data, res)
 	}
 
+}
+
+func TestWriteToJSONFile(t *testing.T) {
+	filename := "TestWriteToJsonFile.json"
+	expString := `[
+	{
+		"login": "user1",
+		"hash": "e6c3da5b206634d7f3f3586d747ffdb36b5c675757b380c6a5fe5c570c714349",
+		"secret": "secret1"
+	},
+	{
+		"login": "user2",
+		"hash": "1ba3d16e9881959f8c9a9762854f72c6e6321cdd44358a10a4e939033117eab9",
+		"secret": "secret2"
+	}
+]`
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatalf("Ошибка при открытии файла: %v", err)
+	}
+	entity.WriteToJSONFile(file, expString)
+}
+
+// создаю список пользователей, записываю в файл, считываю в виде строки, сравниваю со строкой которая должна быть.
+
+func TestVeryficationPass(t *testing.T) {
+	// создаю пользователя, передаю пароль, и сверяю пароль с должным. Сделать две проверки, на true и false. При правильном пароле вернуть тру, при неправильном пароле фолс
+	UserPassTrue := entity.User{Login: "user1", PassHash: "pass1", Secret: ""}
+	expectedAnswer1 := true
+
+	db := database.New()
+
+	for _, u := range db.Users {
+		funcAnswer1 := u.VeryficationPass(UserPassTrue.PassHash)
+		if funcAnswer1 != expectedAnswer1 {
+			t.Errorf("answer = %v, expected %v", funcAnswer1, expectedAnswer1)
+		}
+	}
+
+	expectedAnswer2 := false
+	UserPassFalse := entity.User{Login: "user2", PassHash: "wrongPass", Secret: ""}
+	for _, u := range db.Users {
+		funcAnswer2 := u.VeryficationPass(UserPassFalse.PassHash)
+		if funcAnswer2 != expectedAnswer2 {
+			t.Errorf("answer = %v, expected %v", funcAnswer2, expectedAnswer2)
+		}
+	}
 }
