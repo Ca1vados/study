@@ -23,7 +23,6 @@ func (u *User) VeryficationPass(pass string) bool {
 	// измени на проверку - u.PassHash == sha256(pass)
 	inputPassHash := sha256.Sum256([]byte(pass))                // pass поступающий в функцию перевел в хэш и на вывод поставил сравнение с PassHash
 	inputPassHashString := hex.EncodeToString(inputPassHash[:]) // переводим byte в string
-	WriteToJSONFile("temp.json", inputPassHashString)
 	return inputPassHashString == u.PassHash
 }
 
@@ -35,7 +34,7 @@ func WriteToJSONFile(filename string, data interface{}) error {
 	defer file.Close()
 
 	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ") // добавляет отступы для более читаемого формата
+	encoder.SetIndent("", "    ") // добавляет отступы для более читаемого формата
 	if err := encoder.Encode(data); err != nil {
 		return err
 	}
