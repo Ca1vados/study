@@ -14,6 +14,7 @@ type DataBase struct {
 
 func (db *DataBase) AddUser(user entity.User) error {
 	// ... добавить польователя в базу данных
+
 	return nil
 }
 
