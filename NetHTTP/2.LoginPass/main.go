@@ -1,15 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"loginpass/database"
+	"loginpass/internal/httpserver"
+	"loginpass/internal/usecase"
 )
+
+// http <-> usecase <-> database
+//   ^        ^           ^
+// 			entity
 
 // добавить 2 маршрута
 // singin - в body логин и пароль (json) - в ответе secret Или ошибка
 // register - в body логин, пароль, секрет  - в ответе либо OK либо error
 func main() {
 	db := database.New()
-	fmt.Print(db)
-	fmt.Println("LoginPass")
+	u := usecase.New(db)
+	server := httpserver.New(u)
+	server.Start()
 }

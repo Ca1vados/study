@@ -14,6 +14,7 @@ type DataBase struct {
 
 func (db *DataBase) AddUser(user entity.User) error {
 	// ... добавить польователя в базу данных
+
 	return nil
 }
 
@@ -23,6 +24,12 @@ func (db *DataBase) GetUser(login string) (entity.User, error) {
 	return entity.User{}, nil
 }
 
+func (db *DataBase) GetAllLogins() ([]string, error) {
+	// запрос в базу для проверки существования логина
+
+	return nil, nil
+}
+
 func New() *DataBase {
 	// подключение к базе данных
 	db, err := sql.Open("sqlite3", "./database.db")
@@ -30,9 +37,8 @@ func New() *DataBase {
 		os.Exit(1)
 	}
 
-	_, err = db.Exec(`create table if not exists users(
-	id INT primary key,
-	login TEXT,
+	_, err = db.Exec(`create table if not exists users (
+	login TEXT primary key,
 	pass_hash TEXT, 
 	secret TEXT)
 	`)
