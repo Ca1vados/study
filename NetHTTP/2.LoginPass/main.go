@@ -21,13 +21,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	stringLogPassSecret := string(byteLogPassSecret)
 	arrLogPassSecret := strings.Split(stringLogPassSecret, " ")
 	var u entity.User
+
 }
 
 func main() {
 	db := database.New()
 	fmt.Print(db)
 	fmt.Println("LoginPass")
-	http.HandleFunc("/singin", smfunc)
+	//http.HandleFunc("/singin", smfunc)
 	http.HandleFunc("/register", Register)
 	http.ListenAndServe(":8080", nil)
 }
