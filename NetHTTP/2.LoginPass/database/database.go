@@ -24,20 +24,25 @@ func (db *DataBase) GetUser(login string) (entity.User, error) {
 	return entity.User{}, nil
 }
 
+func (db *DataBase) GetAllLogins() ([]string, error) {
+	// запрос в базу для проверки существования логина
+
+	return nil, nil
+}
+
 func New() *DataBase {
 	// подключение к базе данных
-	db, err := sql.Open("sqlite3", "./database.db")
+	db, err := sql.Open("sqlite3", "./database.db") //создаем файл database.db
 	if err != nil {
 		os.Exit(1)
 	}
 
-	_, err = db.Exec(`create table if not exists users(
-	id INT primary key,
-	login TEXT,
+	_, err = db.Exec(`create table if not exists users ( 
+	login TEXT primary key,
 	pass_hash TEXT, 
 	secret TEXT)
-	`)
+	`) // создаем таблицу внутри нашей базы данных
 
-	database := DataBase{conn: db}
+	database := DataBase{conn: db} // ...
 	return &database
 }
