@@ -19,7 +19,6 @@ func New(u *usecase.UseCase) *HttpServer {
 	hs.router.HandleFunc("/register", hs.Register).Methods("POST")
 	hs.router.HandleFunc("/login", hs.Login).Methods("POST")
 	hs.router.HandleFunc("/hello", hs.Hello).Methods("POST")
-	hs.router.HandleFunc("/singin", hs.SingIn).Methods("POST")
 	return &hs
 }
 

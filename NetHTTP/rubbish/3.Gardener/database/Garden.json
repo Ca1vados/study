@@ -1,0 +1,12 @@
+[
+    {
+        "Name": "Apple",
+        "Description": "green, red, yellow",
+        "Availability": "yes"
+    },
+    {
+        "Name": "Melon",
+        "Description": "long, round",
+        "Availability": "no"
+    }
+]

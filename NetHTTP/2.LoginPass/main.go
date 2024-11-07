@@ -2,8 +2,8 @@ package main
 
 import (
 	"loginpass/database"
-	"loginpass/internal/httpserver"
-	"loginpass/internal/usecase"
+	"loginpass/httpserver"
+	"loginpass/usecase"
 )
 
 // http <-> usecase <-> database
@@ -15,8 +15,11 @@ import (
 // register - в body логин, пароль, секрет  - в ответе либо OK либо error
 
 func main() {
-	db := database.New()        // создает файл database с таблицей в нем посредством функции database.New
-	u := usecase.New(db)        // ...
-	server := httpserver.New(u) // запускает http server с помощью httpserver.New
-	server.Start()              // запускаем сервер (почему нет ссылки на пакет httpserver?)
+	database_path := "./database.db"
+	db := database.New(database_path)
+
+	u := usecase.New(db)
+	server := httpserver.New(u)
+
+	server.Start()
 }
