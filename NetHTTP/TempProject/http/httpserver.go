@@ -1,8 +1,11 @@
 package http
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"temp/config"
+	"temp/usecase"
 
 	"github.com/gorilla/mux"
 )
@@ -10,21 +13,27 @@ import (
 type HttpServer struct {
 	Url    string
 	router *mux.Router
+	u      *usecase.UseCase
 }
 
-func New(cfg *config.Config) *HttpServer {
+func New(u *usecase.UseCase, cfg *config.Config) *HttpServer {
 	router := mux.NewRouter()
-	u := HttpServer{
+	hs := HttpServer{
 		Url:    cfg.URL,
 		router: router,
+		u:      u,
 	}
-	return &u
+	hs.router.HandleFunc("/", nil)
+	hs.router.HandleFunc("/data", hs.GetData).Methods("GET")
+	return &hs
 }
 
 func (hs *HttpServer) Run() {
 	http.ListenAndServe(hs.Url, hs.router)
 }
 
-func GetData(w http.ResponseWriter, r *http.Request) {
-
+func (hs *HttpServer) GetData(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("*httpserver - (hs *HttpServer) GetData")
+	data := hs.u.GetData()
+	json.NewEncoder(w).Encode(data)
 }

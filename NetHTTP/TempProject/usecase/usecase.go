@@ -1,14 +1,25 @@
 package usecase
 
-import "temp/config"
+import (
+	"fmt"
+	"temp/config"
+	"temp/database"
+)
 
 type UseCase struct {
 	LogLvl string
+	db     *database.DataBase
 }
 
-func New(cfg *config.Config) *UseCase {
-	u := UseCase{
+func New(db *database.DataBase, cfg *config.Config) *UseCase {
+	return &UseCase{
 		LogLvl: cfg.LogLvl,
+		db:     db,
 	}
-	return &u
+}
+
+func (u *UseCase) GetData() string {
+	fmt.Printf("[%s] (usecase) Вызвали функцию GetData\n", u.LogLvl)
+	data := u.db.GetData()
+	return data
 }
