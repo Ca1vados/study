@@ -9,7 +9,7 @@ type Config struct {
 func New() *Config {
 	url := ":8080"
 	loglvl := "debug"
-	name := "MyDb.json"
+	name := "database.json"
 	cfg := Config{
 		Url:          url,
 		LogLvl:       loglvl,

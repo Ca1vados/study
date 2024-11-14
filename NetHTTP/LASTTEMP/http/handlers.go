@@ -11,7 +11,8 @@ func (hs *HttpServer) Hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func (hs *HttpServer) GetCryptoRataes(w http.ResponseWriter, r *http.Request) {
-	data, err := hs.u.GetGetCryptoRatesBinance()
+	data, err := hs.u.GetAndSaveCryptoRatesBinance()
+	//data, err := hs.u.GetCryptoRatesBinance()
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
@@ -20,7 +21,7 @@ func (hs *HttpServer) GetCryptoRataes(w http.ResponseWriter, r *http.Request) {
 }
 
 func (hs *HttpServer) History(w http.ResponseWriter, r *http.Request) {
-	data, err := hs.u.GetGetCryptoRatesBinance()
+	data, err := hs.u.GetHistory()
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return
@@ -29,7 +30,7 @@ func (hs *HttpServer) History(w http.ResponseWriter, r *http.Request) {
 }
 
 func (hs *HttpServer) Convert(w http.ResponseWriter, r *http.Request) {
-	data, err := hs.u.GetGetCryptoRatesBinance()
+	data, err := hs.u.GetAndSaveCryptoRatesBinance()
 	if err != nil {
 		json.NewEncoder(w).Encode(err)
 		return

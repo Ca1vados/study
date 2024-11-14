@@ -1,0 +1,44 @@
+[
+    [
+        {
+            "symbol": "BTCUSDT",
+            "price": "89532.43000000"
+        },
+        {
+            "symbol": "ETHUSDT",
+            "price": "3136.21000000"
+        },
+        {
+            "symbol": "LTCUSDT",
+            "price": "81.96000000"
+        }
+    ],
+    [
+        {
+            "symbol": "BTCUSDT",
+            "price": "89514.00000000"
+        },
+        {
+            "symbol": "ETHUSDT",
+            "price": "3136.01000000"
+        },
+        {
+            "symbol": "LTCUSDT",
+            "price": "81.93000000"
+        }
+    ],
+    [
+        {
+            "symbol": "BTCUSDT",
+            "price": "89470.11000000"
+        },
+        {
+            "symbol": "ETHUSDT",
+            "price": "3134.76000000"
+        },
+        {
+            "symbol": "LTCUSDT",
+            "price": "81.90000000"
+        }
+    ]
+]
