@@ -26,12 +26,71 @@ func getCoefficient(arr []entity.ApiBinanceResponse, symbol string) (float64, er
 	return coefFloat64, nil
 }
 
+func getAllCoefficient(cryptoRates []entity.ApiBinanceResponse) (map[string]float64, error) {
+	cryptoRatesMap := make(map[string]float64)
+	for _, v := range cryptoRates {
+		prise, err := strconv.ParseFloat(v.Price, 64)
+		if err != nil {
+			return nil, fmt.Errorf("проблемы с переводом Price в float64: %v", err)
+		}
+		cryptoRatesMap[v.Symbol] = prise
+	}
+	cryptoRatesMap["BTCLTC"] = cryptoRatesMap["BTCUSDT"] / cryptoRatesMap["LTCUSDT"]
+	cryptoRatesMap["BTCETH"] = cryptoRatesMap["BTCUSDT"] / cryptoRatesMap["ETHUSDT"]
+	cryptoRatesMap["LTCETH"] = cryptoRatesMap["LTCUSDT"] / cryptoRatesMap["ETHUSDT"]
+
+	return cryptoRatesMap, nil
+}
+
+func (u *UseCase) Convert2(req entity.ConvertRequest) (entity.ConvertResponse, error) {
+	res := entity.ConvertResponse{
+		Amount: req.Amount,
+		From:   req.From,
+		To:     req.To,
+	}
+	/*
+		BTC <-> USDT (1 BTC = k1 * USDT) (1/k1 BTC = USDT) - USDTBTC = 1 / BTCUSDT
+			из 15 BTC = ? USDT
+			=> 15 BTC = 15 * BTCUSDT * USDT  -> ответ 15 * BTCUSDT
+
+			из 15 USDT = ? BTC
+			15 USDT = 15 * ( 1 / BTCUSDT ) BTC
+		symbol BTCUSDT
+		USDT
+
+		BTCLTC = ?
+			1 BTC = BTCUSDT USDT
+			1 LTC = LTCUSDT USDT
+			-> 1/BTCUSDT BTC = 1/LTCUSDT LTC => 1 BTC = BTCUSDT/LTCUSDT LTC => BTCLTC = BTCUSDT/LTCUSDT
+	*/
+
+	cryptoRates, err := u.GetCryptoRatesBinance()
+	if err != nil {
+		return res, fmt.Errorf("нет данных в сети: %v", err)
+	}
+	cryptoRatesMap, err := getAllCoefficient(cryptoRates)
+	if err != nil {
+		return res, err
+	}
+
+	if k, exists := cryptoRatesMap[req.From+req.To]; exists {
+		res.Result = res.Amount * k
+	} else if k, exists := cryptoRatesMap[req.To+req.From]; exists {
+		res.Result = res.Amount / k
+	} else {
+		return res, fmt.Errorf("неизвестная валюта: %v или %v", req.From, req.To)
+	}
+
+	return res, nil
+}
+
 func (u *UseCase) Convert(req entity.ConvertRequest) (entity.ConvertResponse, error) {
 	res := entity.ConvertResponse{
 		Amount: req.Amount,
 		From:   req.From,
 		To:     req.To,
 	}
+
 	cryptoRates, err := u.GetCryptoRatesBinance()
 	if err != nil {
 		return res, fmt.Errorf("нет данных в сети: %v", err)
@@ -116,5 +175,6 @@ func (u *UseCase) Convert(req entity.ConvertRequest) (entity.ConvertResponse, er
 	} else {
 		return res, fmt.Errorf("неизвестная валюта %v", req.From)
 	}
+
 	return res, nil
 }
