@@ -26,7 +26,7 @@ func New(usecase *usecase.UseCase, cfg *config.Config) *HttpServer {
 	hs.router.HandleFunc("/get", hs.GetCryptoRataes).Methods(http.MethodGet)
 
 	hs.router.HandleFunc("/history", hs.History).Methods(http.MethodGet)
-	hs.router.HandleFunc("/convert", hs.Convert).Methods(http.MethodGet)
+	hs.router.HandleFunc("/convert", hs.Convert).Methods(http.MethodPost)
 
 	return &hs
 }

@@ -25,7 +25,7 @@ func (u *UseCase) GetAndSaveCryptoRatesBinance() ([]entity.ApiBinanceResponse, e
 
 func (u *UseCase) GetCryptoRatesBinance() ([]entity.ApiBinanceResponse, error) {
 	urls := []string{
-		"https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT", //bitcoin(BTC) => ustd
+		"https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT", //bitcoin(BTC) => usdt
 		"https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT",
 		"https://api.binance.com/api/v3/ticker/price?symbol=LTCUSDT",
 	}
