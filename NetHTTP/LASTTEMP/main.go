@@ -3,9 +3,18 @@ package main
 import (
 	"temp/config"
 	"temp/database"
+	_ "temp/docs"
 	"temp/http"
 	"temp/usecase"
 )
+
+// @title Simple cryptoconverter
+// @version 1.0
+// @description Service for convertion crypto........
+// @termsOfService http://swagger.io/terms/
+
+// @host localhost:8080
+// @BasePath /
 
 func main() {
 	cfg := config.New()

@@ -1,0 +1,79 @@
+basePath: /
+definitions:
+  entity.ApiBinanceResponse:
+    properties:
+      price:
+        type: string
+      symbol:
+        type: string
+    type: object
+  entity.ConvertResponse:
+    properties:
+      amount:
+        type: number
+      from:
+        type: string
+      result:
+        type: number
+      to:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Service for convertion crypto........
+  termsOfService: http://swagger.io/terms/
+  title: Simple cryptoconverter
+  version: "1.0"
+paths:
+  /convert:
+    post:
+      consumes:
+      - application/json
+      description: возвращает ответ на запрос по вычислению криптовалют
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.ConvertResponse'
+            type: array
+      summary: Get response
+      tags:
+      - convert
+  /get:
+    get:
+      consumes:
+      - application/json
+      description: получает курсы криптовалют и сохраняет их в бд (комментарий для
+        пользователя)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.ApiBinanceResponse'
+            type: array
+      summary: Get rates
+      tags:
+      - cryptorates
+  /history:
+    get:
+      description: возвращает историю хранимых курсов валют
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.ApiBinanceResponse'
+            type: array
+      summary: Get history
+      tags:
+      - cryptorates
+swagger: "2.0"

@@ -6,6 +6,7 @@ import (
 	"temp/usecase"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // handlers: get () convert history
@@ -28,6 +29,7 @@ func New(usecase *usecase.UseCase, cfg *config.Config) *HttpServer {
 	hs.router.HandleFunc("/history", hs.History).Methods(http.MethodGet)
 	hs.router.HandleFunc("/convert", hs.Convert).Methods(http.MethodPost)
 
+	hs.router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	return &hs
 }
 
