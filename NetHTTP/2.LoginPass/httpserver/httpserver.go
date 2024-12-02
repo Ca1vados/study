@@ -1,7 +1,7 @@
 package httpserver
 
 import (
-	"loginpass/internal/usecase"
+	"loginpass/usecase"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -19,6 +19,9 @@ func New(u *usecase.UseCase) *HttpServer {
 	hs.router.HandleFunc("/register", hs.Register).Methods("POST")
 	hs.router.HandleFunc("/login", hs.Login).Methods("POST")
 	hs.router.HandleFunc("/hello", hs.Hello).Methods("POST")
+
+	hs.router.HandleFunc("/get_all_users", hs.GetAllUsers).Methods("GET")
+
 	return &hs
 }
 
