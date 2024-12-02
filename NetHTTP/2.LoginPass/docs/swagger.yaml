@@ -1,0 +1,45 @@
+basePath: /
+definitions:
+  entity.User:
+    properties:
+      hash:
+        description: поменял пароль в структуре на хэш, поменял тип (нужно пояснение
+          по типу byte и [32]byte)
+        type: string
+      login:
+        type: string
+      secret:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: service for authorization by login password
+  termsOfService: http://swagger.io/terms/
+  title: Login password service
+  version: "1.0"
+paths:
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: принимает в body логин, пароль, секрет  - в ответе либо OK либо
+        error
+      parameters:
+      - description: форма для добавления пользователя
+        in: body
+        name: login_pass_secret
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: const
+      summary: добавляет пользователя
+      tags:
+      - register
+swagger: "2.0"

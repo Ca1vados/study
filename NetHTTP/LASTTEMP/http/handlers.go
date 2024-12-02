@@ -51,8 +51,11 @@ func (hs *HttpServer) History(w http.ResponseWriter, r *http.Request) {
 // @Tags convert
 // @Accept json
 // @Produce json
+// @Param convertrequest body entity.ConvertRequest true "форма для ковертации"
 // @Success 200 {array} entity.ConvertResponse
 // @Router /convert [post]
+
+// параметры: название параметра, куда принимает, форма приемки, обязателен ли параметр, название формы параметра
 func (hs *HttpServer) Convert(w http.ResponseWriter, r *http.Request) {
 	var newConvert entity.ConvertRequest
 	err := json.NewDecoder(r.Body).Decode(&newConvert)

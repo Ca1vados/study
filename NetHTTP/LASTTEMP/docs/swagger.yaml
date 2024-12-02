@@ -7,6 +7,15 @@ definitions:
       symbol:
         type: string
     type: object
+  entity.ConvertRequest:
+    properties:
+      amount:
+        type: number
+      from:
+        type: string
+      to:
+        type: string
+    type: object
   entity.ConvertResponse:
     properties:
       amount:
@@ -31,6 +40,13 @@ paths:
       consumes:
       - application/json
       description: возвращает ответ на запрос по вычислению криптовалют
+      parameters:
+      - description: форма для ковертации
+        in: body
+        name: convertrequest
+        required: true
+        schema:
+          $ref: '#/definitions/entity.ConvertRequest'
       produces:
       - application/json
       responses:

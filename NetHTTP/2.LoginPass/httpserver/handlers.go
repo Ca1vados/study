@@ -6,6 +6,15 @@ import (
 	"net/http"
 )
 
+// Register принимает в body логин, пароль, секрет  - в ответе либо OK либо error
+// @Summary добавляет пользователя
+// @Description принимает в body логин, пароль, секрет  - в ответе либо OK либо error
+// @Tags register
+// @Accept json
+// @Produce json
+// @Param login_pass_secret body entity.User true "форма для добавления пользователя"
+// @Success 200 {int} http.StatusCreated
+// @Router /register [post]
 func (hs *HttpServer) Register(w http.ResponseWriter, r *http.Request) {
 	var user entity.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -21,6 +30,15 @@ func (hs *HttpServer) Register(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// Login на запрос по логину и паролю возвращает секрет
+// @Summary authorisation by login password
+// @Description а запрос по логину и паролю возвращает секрет из базы или оишбку если логин или пароль неверны
+// @Tags authorisation
+// @Accept json
+// @Produce json
+// @Param authorisationrequest body entity.User true "форма авторизации"
+// @Success 200 {array} entity.User
+// @Router /login [post]
 func (hs *HttpServer) Login(w http.ResponseWriter, r *http.Request) {
 	var user entity.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -28,7 +46,7 @@ func (hs *HttpServer) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := hs.u.Login(user)
+	userWithSecret, err := hs.u.Login(user)
 	if err != nil {
 		w.Write([]byte(err.Error()))
 	}
@@ -36,10 +54,13 @@ func (hs *HttpServer) Login(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func (hs *HttpServer) Hello(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello!"))
-}
-
+// GetAllUsers возвращает все данные из базы
+// @Summary возвращает все данные из базы
+// @Description при запросе возвращает все данные из базы данных
+// @Tags database
+// @Produce json
+// @Success 200 {array} entity.User
+// @Router /getallusers [get]
 func (hs *HttpServer) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	// 1. Обработка входных данных и продготовка данных для передачи в UseCase
 	// тут нет обработки request, так как это просто запрос данных
@@ -53,4 +74,8 @@ func (hs *HttpServer) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	} else {
 		json.NewEncoder(w).Encode(users)
 	}
+}
+
+func (hs *HttpServer) Hello(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello!"))
 }

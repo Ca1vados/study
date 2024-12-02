@@ -29,6 +29,17 @@ const docTemplate = `{
                     "convert"
                 ],
                 "summary": "Get response",
+                "parameters": [
+                    {
+                        "description": "форма для ковертации",
+                        "name": "convertrequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.ConvertRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -100,6 +111,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "symbol": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.ConvertRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
                     "type": "string"
                 }
             }

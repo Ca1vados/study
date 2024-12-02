@@ -12,5 +12,19 @@
             "symbol": "LTCUSDT",
             "price": "81.96000000"
         }
+    ],
+    [
+        {
+            "symbol": "BTCUSDT",
+            "price": "95607.99000000"
+        },
+        {
+            "symbol": "ETHUSDT",
+            "price": "3595.38000000"
+        },
+        {
+            "symbol": "LTCUSDT",
+            "price": "95.46000000"
+        }
     ]
 ]
