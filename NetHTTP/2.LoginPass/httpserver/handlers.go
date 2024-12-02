@@ -6,17 +6,25 @@ import (
 	"net/http"
 )
 
+func enableCORS(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "PUT, POST, GET, OPTIONS, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+}
+
 // Register принимает в body логин, пароль, секрет  - в ответе либо OK либо error
 // @Summary добавляет пользователя
 // @Description принимает в body логин, пароль, секрет  - в ответе либо OK либо error
 // @Tags register
 // @Accept json
 // @Produce json
-// @Param login_pass_secret body entity.User true "форма для добавления пользователя"
+// @Param login_pass_secret body entity.UserReg true "форма для добавления пользователя"
 // @Success 200 {int} http.StatusCreated
 // @Router /register [post]
 func (hs *HttpServer) Register(w http.ResponseWriter, r *http.Request) {
-	var user entity.User
+	enableCORS(w)
+
+	var user entity.UserReg
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
 		return
@@ -40,6 +48,8 @@ func (hs *HttpServer) Register(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} entity.User
 // @Router /login [post]
 func (hs *HttpServer) Login(w http.ResponseWriter, r *http.Request) {
+	enableCORS(w)
+
 	var user entity.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, "Bad request", http.StatusBadRequest)
@@ -67,6 +77,7 @@ func (hs *HttpServer) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	// тут нет обработки request, так как это просто запрос данных
 
 	// 2. Вызов метода UseCase - внутри вся логика
+	enableCORS(w)
 	users, err := hs.u.GetAllUsers() // вызов UseCase
 
 	// 3. Отправка ответа клиенту
@@ -78,5 +89,6 @@ func (hs *HttpServer) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (hs *HttpServer) Hello(w http.ResponseWriter, r *http.Request) {
+	enableCORS(w)
 	w.Write([]byte("Hello!"))
 }

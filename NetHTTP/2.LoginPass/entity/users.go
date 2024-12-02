@@ -11,6 +11,12 @@ type User struct {
 	Secret   string `json:"secret"`
 }
 
+type UserReg struct {
+	Login  string `json:"login"`
+	Pass   string `json:"pass"` // поменял пароль в структуре на хэш, поменял тип (нужно пояснение по типу byte и [32]byte)
+	Secret string `json:"secret"`
+}
+
 /*
 будет принимать введенные от пользователя данные,
 сверять их с данными полученными функцией Database

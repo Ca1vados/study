@@ -20,7 +20,7 @@ import (
 // @description service for authorization by login password
 // @termsOfService http://swagger.io/terms/
 
-// @host localhost:8080
+// @host 127.0.0.1:8080
 
 func main() {
 	database_path := "./database.db"

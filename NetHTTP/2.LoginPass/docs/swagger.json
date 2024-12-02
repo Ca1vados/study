@@ -7,7 +7,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "127.0.0.1:8080",
     "paths": {
         "/getallusers": {
             "get": {
@@ -89,7 +89,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.User"
+                            "$ref": "#/definitions/entity.UserReg"
                         }
                     }
                 ],
@@ -113,6 +113,21 @@
                     "type": "string"
                 },
                 "login": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.UserReg": {
+            "type": "object",
+            "properties": {
+                "login": {
+                    "type": "string"
+                },
+                "pass": {
+                    "description": "поменял пароль в структуре на хэш, поменял тип (нужно пояснение по типу byte и [32]byte)",
                     "type": "string"
                 },
                 "secret": {

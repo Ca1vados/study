@@ -10,7 +10,18 @@ definitions:
       secret:
         type: string
     type: object
-host: localhost:8080
+  entity.UserReg:
+    properties:
+      login:
+        type: string
+      pass:
+        description: поменял пароль в структуре на хэш, поменял тип (нужно пояснение
+          по типу byte и [32]byte)
+        type: string
+      secret:
+        type: string
+    type: object
+host: 127.0.0.1:8080
 info:
   contact: {}
   description: service for authorization by login password
@@ -70,7 +81,7 @@ paths:
         name: login_pass_secret
         required: true
         schema:
-          $ref: '#/definitions/entity.User'
+          $ref: '#/definitions/entity.UserReg'
       produces:
       - application/json
       responses:

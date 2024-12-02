@@ -17,11 +17,10 @@ func New(data *database.DataBase) *UseCase {
 	return &u
 }
 
-func (u *UseCase) RegisterUser(user entity.User) error {
-	u.db.CreateUser(user)
+func (u *UseCase) RegisterUser(user entity.UserReg) error {
 	allLogins, err := u.db.GetAllLogins()
 	if err != nil {
-		return err
+		return fmt.Errorf("ошибка в u.db.GetAllLogins: %v", err)
 	}
 
 	isFree := true
@@ -33,10 +32,15 @@ func (u *UseCase) RegisterUser(user entity.User) error {
 	}
 
 	if isFree {
-		u.db.CreateUser(user)
+		save_user := entity.User{
+			Login:    user.Login,
+			Secret:   user.Secret,
+			PassHash: StrToSha256Str(user.Pass),
+		}
+		u.db.CreateUser(save_user)
 		return nil
 	} else {
-		return errors.New("logins is not free ...")
+		return errors.New("логин уже занят")
 	}
 
 }
