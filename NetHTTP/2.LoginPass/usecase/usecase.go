@@ -41,8 +41,16 @@ func (u *UseCase) RegisterUser(user entity.User) error {
 
 }
 
-func (u *UseCase) Login(user entity.User) error {
-	return nil
+func (u *UseCase) Login(user entity.User) (entity.User, error) {
+	//в функцию поступает структура user с заполненными полями login и passhash
+	// нужно запустить функцию getuser с предложенным логином.
+	// при успехе сверить пароли, при успехе записать в user секрет.
+	userFromDb, err := u.db.GetUser(user.Login)
+	if err != nil {
+		fmt.Errorf("user %s is not available", user.Login)
+	}
+
+	return userFromDb, err
 }
 
 func (u *UseCase) GetAllUsers() ([]entity.User, error) {

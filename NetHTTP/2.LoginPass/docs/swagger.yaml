@@ -1,0 +1,85 @@
+basePath: /
+definitions:
+  entity.User:
+    properties:
+      hash:
+        description: поменял пароль в структуре на хэш, поменял тип (нужно пояснение
+          по типу byte и [32]byte)
+        type: string
+      login:
+        type: string
+      secret:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: service for authorization by login password
+  termsOfService: http://swagger.io/terms/
+  title: Login password service
+  version: "1.0"
+paths:
+  /getallusers:
+    get:
+      description: при запросе возвращает все данные из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      summary: возвращает все данные из базы
+      tags:
+      - database
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: а запрос по логину и паролю возвращает секрет из базы или оишбку
+        если логин или пароль неверны
+      parameters:
+      - description: форма авторизации
+        in: body
+        name: authorisationrequest
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+      summary: authorisation by login password
+      tags:
+      - authorisation
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: принимает в body логин, пароль, секрет  - в ответе либо OK либо
+        error
+      parameters:
+      - description: форма для добавления пользователя
+        in: body
+        name: login_pass_secret
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: int
+      summary: добавляет пользователя
+      tags:
+      - register
+swagger: "2.0"

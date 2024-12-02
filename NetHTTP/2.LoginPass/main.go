@@ -2,6 +2,7 @@ package main
 
 import (
 	"loginpass/database"
+	_ "loginpass/docs"
 	"loginpass/httpserver"
 	"loginpass/usecase"
 )
@@ -13,6 +14,13 @@ import (
 // добавить 2 маршрута
 // singin - в body логин и пароль (json) - в ответе secret Или ошибка
 // register - в body логин, пароль, секрет  - в ответе либо OK либо error
+
+// @title Login password service
+// @version 1.0
+// @description service for authorization by login password
+// @termsOfService http://swagger.io/terms/
+
+// @host localhost:8080
 
 func main() {
 	database_path := "./database.db"

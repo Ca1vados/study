@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type HttpServer struct {
@@ -20,7 +21,9 @@ func New(u *usecase.UseCase) *HttpServer {
 	hs.router.HandleFunc("/login", hs.Login).Methods("POST")
 	hs.router.HandleFunc("/hello", hs.Hello).Methods("POST")
 
-	hs.router.HandleFunc("/get_all_users", hs.GetAllUsers).Methods("GET")
+	hs.router.HandleFunc("/getallusers", hs.GetAllUsers).Methods("GET")
+
+	hs.router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	return &hs
 }
