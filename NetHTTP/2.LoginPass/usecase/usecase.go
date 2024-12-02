@@ -49,11 +49,8 @@ func (u *UseCase) Login(user entity.User) (entity.User, error) {
 	if err != nil {
 		fmt.Errorf("user %s is not available", user.Login)
 	}
-	if user.PassHash {
 
-	}
-
-	return user, err
+	return userFromDb, err
 }
 
 func (u *UseCase) GetAllUsers() ([]entity.User, error) {
