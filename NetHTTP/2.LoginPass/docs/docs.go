@@ -155,8 +155,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "service for authorization by login password",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	// LeftDelim:        "{{",
-	// RightDelim:       "}}",
+//	LeftDelim:        "{{",
+//	RightDelim:       "}}",
 }
 
 func init() {

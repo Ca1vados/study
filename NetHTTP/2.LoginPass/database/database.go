@@ -32,21 +32,38 @@ func New(database_path string) *DataBase {
 func (db *DataBase) CreateUser(user entity.User) error {
 	// ... добавить польователя в базу данных
 	// db.conn.Exec("INSERT ...")
-	// insert into user (login, pass_hash, secret) values (?, ?, ?)
+	// INSERT INTO user (login, pass_hash, secret) VALUES (?, ?, ?)
 	_, err := db.conn.Exec("INSERT INTO users (login, pass_hash, secret) VALUES (?, ?, ?)", user.Login, user.PassHash, user.Secret)
 	return err
 }
 
 func (db *DataBase) GetUser(login string) (entity.User, error) {
 	// запросить пользователя из базы по login
+	// SELECT * FROM users WHERE login = '?'
 
-	return entity.User{}, nil
+	rows, err := db.conn.Query("SELECT * FROM users WHERE login = '?'", login)
+	if err != nil {
+		return entity.User{}, err
+	}
+	defer rows.Close()
+
+	var requestUser entity.User
+	for rows.Next() {
+		var u entity.User
+		err := rows.Scan(&u.Login, &u.PassHash, &u.Secret)
+		if err != nil {
+			return entity.User{}, err
+		}
+		requestUser = u
+	}
+
+	return requestUser, nil
 }
 
 func (db *DataBase) GetAllLogins() ([]string, error) {
 	// запрос в базу для проверки существования логина
-	// SELECT login from users
-	rows, err := db.conn.Query("SELECT login from users")
+	// SELECT login FROM users
+	rows, err := db.conn.Query("SELECT login FROM users")
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +85,19 @@ func (db *DataBase) GetAllLogins() ([]string, error) {
 func (db *DataBase) GetAllUsers() ([]entity.User, error) {
 	// запроса к базе данных
 	// select * from users;
+	rows, err := db.conn.Query("SELECT * from users")
+	if err != nil {
+		return nil, err
+	}
 	users := []entity.User{}
+	for rows.Next() {
+		u := entity.User{}
+		err := rows.Scan(&u.Login, &u.PassHash, &u.Secret)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
 
 	return users, nil
 }
